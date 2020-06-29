@@ -17,6 +17,10 @@ TESTS_BIN = $(TESTS_OBJ:.o=) $(CUDA_TESTS_OBJ:.o=)
 
 # test_gpu_index.py test_pytorch_faiss.py
 
+build: $(TESTS_BIN)
+TestUtils.o: TestUtils.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(CPUFLAGS) -o $@ -c $^ ../../libfaiss.a -Igtest/include -I../..
+
 run: $(TESTS_BIN) $(CUDA_TESTS_BIN)
 	for t in $(TESTS_BIN) $(CUDA_TESTS_BIN); do ./$$t || exit; done
 
